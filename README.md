@@ -4,9 +4,18 @@ Claude Code skills for building Solana Mobile apps.
 
 ## Available Skills
 
-### Mobile Wallet Adapter
+### Mobile Wallet Adapter (`mwa/`)
 
 Integrates Mobile Wallet Adapter (MWA) for wallet connection and transaction signing in React Native Expo apps using [@wallet-ui/react-native-web3js](https://wallet-ui.dev/).
+
+All MWA skills are located in the `mwa/` directory:
+
+| Folder | Skill | Description |
+|--------|-------|-------------|
+| `mwa/mobile-wallet-adapter-react-native` | Router | Assesses needs and delegates to sub-skills |
+| `mwa/mwa-setup` | Setup | Install dependencies, polyfills, and provider configuration |
+| `mwa/mwa-connection` | Connection | Add connect/disconnect wallet functionality |
+| `mwa/mwa-transactions` | Transactions | Add SOL transfers and transaction signing |
 
 **Trigger phrases:**
 - "Add wallet connection to my React Native app"
@@ -14,21 +23,13 @@ Integrates Mobile Wallet Adapter (MWA) for wallet connection and transaction sig
 - "Add a connect wallet button"
 - "Send SOL transactions from my app"
 
-**What it does:**
-- Wallet connection with native wallet picker
-- Transaction signing and sending
-- Session persistence across app restarts
-- Complete provider and polyfill setup
-
 ## Installation
 
-Copy the skill folder to your Claude Code skills directory:
+Copy the skill folders to your Claude Code skills directory:
 
 ```bash
-cp -r mobile-wallet-adapter-react-native ~/.claude/skills/
+cp -r mwa/* ~/.claude/skills/
 ```
-
-The skill will be automatically discovered and available as `/mobile-wallet-adapter-react-native`.
 
 ## Requirements
 

@@ -13,13 +13,6 @@ npm install @tanstack/react-query
 npm install react-native-get-random-values
 ```
 
-### Why These Packages?
-
-- **@wallet-ui/react-native-web3js**: Beeman's production-ready SDK that simplifies MWA integration
-- **@solana/web3.js**: Solana blockchain interaction library
-- **@tanstack/react-query**: Required by Wallet UI SDK for state management
-- **react-native-get-random-values**: Critical crypto polyfill for React Native
-
 ### Development Build Requirement
 
 ⚠️ **IMPORTANT**: Mobile Wallet Adapter requires a development build. **Expo Go will NOT work**.
@@ -48,7 +41,7 @@ import 'react-native-get-random-values';  // ⚠️ MUST BE FIRST
 
 // Then other imports...
 import { Stack } from 'expo-router';
-import { MobileWalletAdapterProvider } from '@wallet-ui/react-native-web3js';
+import { MobileWalletProvider } from '@wallet-ui/react-native-web3js';
 // ...
 ```
 
@@ -60,18 +53,6 @@ import { MobileWalletAdapterProvider } from '@wallet-ui/react-native-web3js';
 - If imported late, modules already failed their checks
 - Can cause random "crypto.getRandomValues() not supported" errors
 
-**What It Polyfills**:
-- Provides `crypto.getRandomValues()` API
-- Solana Web3.js uses it for transaction IDs
-- UUID generation for request tracking
-- Secure random number generation
-
-**Error If Missing**:
-```
-Error: crypto.getRandomValues() not supported.
-See https://github.com/uuidjs/uuid#getrandomvalues-not-supported
-```
-
 **Symptoms**:
 - ✅ Wallet connection works (doesn't need crypto)
 - ❌ Transactions fail (needs crypto for blockhash/IDs)
@@ -81,8 +62,6 @@ See https://github.com/uuidjs/uuid#getrandomvalues-not-supported
 ## Environment Configuration
 
 ### .env File
-
-Create `.env` in project root:
 
 ```bash
 EXPO_PUBLIC_SOLANA_CLUSTER=devnet
@@ -115,12 +94,6 @@ export const SOLANA_RPC_ENDPOINT =
   'https://api.devnet.solana.com';
 ```
 
-**Why APP_IDENTITY?**
-- Shown in wallet approval dialog
-- Users see who's requesting access
-- Builds trust and brand recognition
-- Required by wallet apps for security
-
 ## Provider Setup
 
 ### Root Layout Configuration
@@ -131,19 +104,19 @@ In `app/_layout.tsx`:
 import 'react-native-get-random-values'; // ⚠️ MUST BE FIRST
 
 import { Stack } from 'expo-router';
-import { MobileWalletAdapterProvider } from '@wallet-ui/react-native-web3js';
+import { MobileWalletProvider } from '@wallet-ui/react-native-web3js';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SOLANA_CLUSTER, SOLANA_RPC_ENDPOINT, APP_IDENTITY } from '@/constants/wallet';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const clusterId = `solana:${SOLANA_CLUSTER}` as const;
+  const chain = `solana:${SOLANA_CLUSTER}` as const;
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MobileWalletAdapterProvider
-        clusterId={clusterId}
+      <MobileWalletProvider
+        chain={chain}
         endpoint={SOLANA_RPC_ENDPOINT}
         identity={APP_IDENTITY}
       >
@@ -151,70 +124,10 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           {/* Other screens */}
         </Stack>
-      </MobileWalletAdapterProvider>
+      </MobileWalletProvider>
     </QueryClientProvider>
   );
 }
-```
-
-### Why This Structure?
-
-**QueryClientProvider Required**:
-- Wallet UI SDK depends on React Query
-- Manages wallet state efficiently
-- Handles caching and revalidation
-- Provides loading/error states
-
-**MobileWalletAdapterProvider**:
-- Wraps entire app to provide wallet context
-- Handles wallet lifecycle automatically
-- Built-in auth token persistence
-- Simplified API compared to raw MWA
-
-**ClusterId Format**:
-- Must be in format: `solana:${cluster}`
-- Examples: `solana:devnet`, `solana:mainnet-beta`
-- Used by wallet apps for network validation
-
-## Connection Provider (Optional)
-
-If you need direct access to Solana Connection throughout the app:
-
-```typescript
-// components/providers/ConnectionProvider.tsx
-import { createContext, useContext } from 'react';
-import { Connection } from '@solana/web3.js';
-import { SOLANA_RPC_ENDPOINT } from '@/constants/wallet';
-
-const ConnectionContext = createContext<Connection | null>(null);
-
-export function ConnectionProvider({ children }: { children: React.ReactNode }) {
-  const connection = new Connection(SOLANA_RPC_ENDPOINT, 'confirmed');
-  
-  return (
-    <ConnectionContext.Provider value={connection}>
-      {children}
-    </ConnectionContext.Provider>
-  );
-}
-
-export function useConnection() {
-  const connection = useContext(ConnectionContext);
-  if (!connection) {
-    throw new Error('useConnection must be used within ConnectionProvider');
-  }
-  return connection;
-}
-```
-
-Then wrap in `_layout.tsx`:
-
-```typescript
-<MobileWalletAdapterProvider {...props}>
-  <ConnectionProvider>
-    {/* App content */}
-  </ConnectionProvider>
-</MobileWalletAdapterProvider>
 ```
 
 ## Common Setup Issues

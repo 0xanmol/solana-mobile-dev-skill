@@ -37,6 +37,21 @@ Add .skr domain name resolution to display human-readable names instead of walle
 - "Display .skr names instead of wallet addresses"
 - "Show user's .skr name in their profile"
 
+### Seeker Genesis Token (`genesis-token/`)
+
+Verify Seeker device ownership by checking for the Seeker Genesis Token (SGT) — a unique NFT minted once per Seeker device.
+
+**What it does:**
+- Proves wallet ownership via Sign-in-with-Solana (SIWS)
+- Verifies wallet contains an SGT
+- Backend verification to prevent spoofing
+
+**Trigger phrases:**
+- "Verify Seeker device ownership"
+- "Gate content to Seeker owners"
+- "Add SGT verification"
+- "Implement anti-Sybil for Seeker"
+
 ## Installation
 
 Copy the skill folders to your Claude Code skills directory:
@@ -47,6 +62,9 @@ cp -r mwa/* ~/.claude/skills/
 
 # Solana Domains skill
 cp -r solana-domains ~/.claude/skills/
+
+# Genesis Token skill
+cp -r genesis-token ~/.claude/skills/
 ```
 
 ## Requirements

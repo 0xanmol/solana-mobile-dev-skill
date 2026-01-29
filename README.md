@@ -61,7 +61,7 @@ Copy the skill folders to your Claude Code skills directory:
 cp -r mwa/* ~/.claude/skills/
 
 # Solana Domains skill
-cp -r domain-resolution ~/.claude/skills/
+cp -r skr-address-resolution ~/.claude/skills/
 
 # Genesis Token skill
 cp -r genesis-token ~/.claude/skills/

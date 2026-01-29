@@ -22,6 +22,8 @@ npm install @solana/web3.js @solana/spl-token
 
 ## Complete Verification Script
 
+> **Note**: Remove or replace `console.log` statements with your preferred logging framework in production.
+
 ```javascript
 const { Connection, PublicKey } = require('@solana/web3.js');
 const { unpackMint, getMetadataPointerState, getTokenGroupMemberState, TOKEN_2022_PROGRAM_ID } = require('@solana/spl-token');

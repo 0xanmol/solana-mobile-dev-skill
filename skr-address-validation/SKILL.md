@@ -1,5 +1,5 @@
 ---
-name: solana-domains
+name: skr-address-resolution
 description: Add .skr domain name resolution and display to Solana Mobile React Native apps. Use when the user requests to integrate .skr domain validation, resolve .skr domains to wallet addresses, display .skr names instead of addresses, add reverse lookup from addresses to domains, or implement .skr name features anywhere wallet addresses are shown (profiles, friend lists, transaction history, etc.)
 ---
 

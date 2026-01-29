@@ -23,7 +23,7 @@ All MWA skills are located in the `mwa/` directory:
 - "Add a connect wallet button"
 - "Send SOL transactions from my app"
 
-### Solana Domains (`solana-domains/`)
+### Solana Domains (`skr-address-resolution/`)
 
 Add .skr domain name resolution to display human-readable names instead of wallet addresses.
 
@@ -61,7 +61,7 @@ Copy the skill folders to your Claude Code skills directory:
 cp -r mwa/* ~/.claude/skills/
 
 # Solana Domains skill
-cp -r solana-domains ~/.claude/skills/
+cp -r domain-resolution ~/.claude/skills/
 
 # Genesis Token skill
 cp -r genesis-token ~/.claude/skills/
